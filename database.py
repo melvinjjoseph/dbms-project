@@ -1,7 +1,8 @@
 import streamlit as st
 import mysql.connector
+import pandas as pd
 
-mydb = mysql.connector.connect(user="root", password="ENTER PASSWORD", host="localhost")
+mydb = mysql.connector.connect(user="root", password="246810", host="localhost")
 mycursor = mydb.cursor()
 
 mycursor.execute("CREATE DATABASE IF NOT EXISTS electricity")
@@ -20,10 +21,9 @@ def read_customer():
     mycursor.execute("SELECT * FROM customer")
     myresult = mycursor.fetchall()
     st.write("Customer details")
-    #print as table
-    st.write("cust_id, name, address, city, state")
-    for x in myresult:
-        st.write(x)
+    df=pd.DataFrame(myresult,columns=['cust_id','name','address','city','state'])
+    st.dataframe(df)
+
 
 def delete_customer_db(cust_id):
     sql = "DELETE FROM customer WHERE cust_id = %s"
@@ -51,9 +51,9 @@ def read_admin():
     mycursor.execute("SELECT * FROM admin")
     myresult = mycursor.fetchall()
     st.write("Admin details")
-    st.write("admin_id, name, Customer_id")
-    for x in myresult:
-        st.write(x)
+    df=pd.DataFrame(myresult,columns=['admin_id','name','Customer_id'])
+    st.dataframe(df)
+
 
 def update_admin_db(admin_id,name,Customer_id):
     sql = "UPDATE admin SET name = %s, Customer_id = %s WHERE admin_id = %s"
@@ -70,9 +70,9 @@ def delete_admin_db(admin_id):
     st.write("Admin deleted successfully")
 
 def add_bill(cust_id,meter_no,units,cost_per_unit):
-    mycursor.execute("CREATE TABLE IF NOT EXISTS bill (bill_id INT AUTO_INCREMENT PRIMARY KEY, cust_id INT NOT NULL, meter_no INT NOT NULL, units INT NOT NULL, cost_per_unit INT NOT NULL, FOREIGN KEY (cust_id) REFERENCES customer(cust_id))")
-    sql = "INSERT INTO bill (cust_id, meter_no, units, cost_per_unit) VALUES (%s, %s, %s, %s)"
-    val = (cust_id, meter_no, units, cost_per_unit)
+    mycursor.execute("CREATE TABLE IF NOT EXISTS bill (bill_id INT AUTO_INCREMENT PRIMARY KEY, cust_id INT NOT NULL, meter_no INT NOT NULL, units INT NOT NULL, cost_per_unit INT NOT NULL, amount INT NOT NULL, FOREIGN KEY (cust_id) REFERENCES customer(cust_id))")
+    sql = "INSERT INTO bill (cust_id, meter_no, units, cost_per_unit, amount) VALUES (%s, %s, %s, %s, %s)"
+    val = (cust_id, meter_no, units, cost_per_unit, int(units)*int(cost_per_unit))
     mycursor.execute(sql, val)
     mydb.commit()
     st.write("Bill added successfully")
@@ -82,9 +82,9 @@ def read_bill():
     mycursor.execute("SELECT * FROM bill")
     myresult = mycursor.fetchall()
     st.write("Bill details")
-    st.write("bill_id, cust_id, meter_no, units, cost_per_unit, amount")
-    for x in myresult:
-        st.write(x)
+    df=pd.DataFrame(myresult,columns=['bill_id','cust_id','meter_no','units','cost_per_unit','amount'])
+    st.dataframe(df)
+
 
 def update_bill_db(bill_id,cust_id,meter_no,units,cost_per_unit):
     sql = "UPDATE bill SET cust_id = %s, meter_no = %s, units = %s, cost_per_unit = %s, amount = %s WHERE bill_id = %s"
@@ -112,9 +112,8 @@ def read_tariff():
     mycursor.execute("SELECT * FROM tariff")
     myresult = mycursor.fetchall()
     st.write("Tariff details")
-    st.write("tariff_id, tariff_type, tariff_cost")
-    for x in myresult:
-        st.write(x)
+    df=pd.DataFrame(myresult,columns=['tariff_id','tariff_type','tariff_cost'])
+    st.dataframe(df)
 
 def update_tariff_db(tariff_id,tariff_type,tariff_cost):
     sql = "UPDATE tariff SET tariff_type = %s, tariff_cost = %s WHERE tariff_id = %s"
