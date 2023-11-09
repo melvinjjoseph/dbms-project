@@ -5,7 +5,7 @@ def create_customer():
     name=st.text_input("Enter name")
     address=st.text_input("Enter address")
     city=st.text_input("Enter city")
-    state=st.text_input("Enter state")
+    state=st.selectbox("Select state",["","Karnataka","Tamil Nadu","Kerala","Andhra Pradesh","Telangana","Maharashtra","Goa","Gujarat","Rajasthan","Uttar Pradesh","Madhya Pradesh","Bihar","Jharkhand","Odisha","West Bengal","Assam","Arunachal Pradesh","Manipur","Meghalaya","Mizoram","Nagaland","Sikkim","Tripura","Himachal Pradesh","Punjab","Haryana","Uttarakhand","Jammu and Kashmir","Chhattisgarh","Uttarakhand","Delhi","Puducherry","Chandigarh","Dadra and Nagar Haveli and Daman and Diu","Ladakh","Andaman and Nicobar Islands","Lakshadweep"])    
     submit=st.button("Submit")
     if submit:
         cust_id=add_customer(name,address,city,state) 
@@ -29,7 +29,7 @@ def update_customer():
     name=st.text_input("Enter name")
     address=st.text_input("Enter address")
     city=st.text_input("Enter city")
-    state=st.text_input("Enter state")
+    state=st.selectbox("Select state",["","Karnataka","Tamil Nadu","Kerala","Andhra Pradesh","Telangana","Maharashtra","Goa","Gujarat","Rajasthan","Uttar Pradesh","Madhya Pradesh","Bihar","Jharkhand","Odisha","West Bengal","Assam","Arunachal Pradesh","Manipur","Meghalaya","Mizoram","Nagaland","Sikkim","Tripura","Himachal Pradesh","Punjab","Haryana","Uttarakhand","Jammu and Kashmir","Chhattisgarh","Uttarakhand","Delhi","Puducherry","Chandigarh","Dadra and Nagar Haveli and Daman and Diu","Ladakh","Andaman and Nicobar Islands","Lakshadweep"])
     submit=st.button("Submit")
 
     # check if customer_id exists in database
