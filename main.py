@@ -11,8 +11,14 @@ from tariff import *
 def main():
     st.title("Electricity management system")
 
-    menu=["Home","Customer","Admin", "Billing", "Tariff", "Custom Query"]
-    choice=st.sidebar.selectbox("Menu",menu)
+    choose=st.sidebar.radio("Select whether you are customer or admin",["Customer","Admin"])
+    if choose=="Customer":
+        menu=["Home","Customer", "Billing"]
+        choice=st.sidebar.selectbox("Menu",menu)
+    if choose=="Admin":
+        menu=["Home","Customer","Admin", "Billing", "Tariff", "Show Due Bills", "Custom Query"]
+        choice=st.sidebar.selectbox("Menu",menu)
+
 
     if choice=="Home":
         st.subheader("Home")
@@ -74,6 +80,10 @@ def main():
             update_tariff()
         elif tariff_choice=="Delete" :
             delete_tariff()
+
+    if choice =="Show Due Bills":
+        st.subheader("Due Bills")
+        due_bills()
 
     if choice == "Custom Query":
         st.subheader("Custom Query")
