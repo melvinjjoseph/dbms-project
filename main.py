@@ -5,7 +5,7 @@ from customer import *
 from admin import *
 from bill import *
 from tariff import *
-
+from board import *
 
 
 def main():
@@ -16,7 +16,7 @@ def main():
         menu=["Home","Customer", "Billing"]
         choice=st.sidebar.selectbox("Menu",menu)
     if choose=="Admin":
-        menu=["Home","Customer","Admin", "Billing", "Tariff", "Show Due Bills", "Custom Query"]
+        menu=["Home","Customer","Admin", "Billing", "Tariff", "Electricity Boards", "Show Due Bills", "Custom Query"]
         choice=st.sidebar.selectbox("Menu",menu)
 
 
@@ -80,6 +80,19 @@ def main():
             update_tariff()
         elif tariff_choice=="Delete" :
             delete_tariff()
+
+    if choice == "Electricity Boards":
+        st.subheader("Electricity Boards")
+        eb_menu=["Add","View","Update","Delete"]
+        eb_choice=st.selectbox("Menu",eb_menu)
+        if eb_choice=="Add":
+            create_eb()
+        elif eb_choice=="View" :
+            read_eb()
+        elif eb_choice=="Update" :
+            update_eb()
+        elif eb_choice=="Delete" :
+            delete_eb()
 
     if choice =="Show Due Bills":
         st.subheader("Due Bills")

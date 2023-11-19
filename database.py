@@ -2,7 +2,7 @@ import streamlit as st
 import mysql.connector
 import pandas as pd
 
-mydb = mysql.connector.connect(user="root", password="246810", host="localhost")
+mydb = mysql.connector.connect(user="root", password="password", host="localhost")
 mycursor = mydb.cursor()
 
 mycursor.execute("CREATE DATABASE IF NOT EXISTS electricity")
@@ -81,10 +81,10 @@ def delete_admin_db(admin_id):
     mydb.commit()
     st.write("Admin deleted successfully")
 
-def add_bill(cust_id,meter_no,units,cost_per_unit,due_date):
-    mycursor.execute("CREATE TABLE IF NOT EXISTS bill (bill_id INT AUTO_INCREMENT PRIMARY KEY, cust_id INT NOT NULL, meter_no INT NOT NULL, units INT NOT NULL, cost_per_unit INT NOT NULL, amount INT NOT NULL, due_date DATE NOT NULL, FOREIGN KEY (cust_id) REFERENCES customer(cust_id))")
+def add_bill(cust_id,meter_no,units,cost_per_unit,due_date,board_id):
+    mycursor.execute("CREATE TABLE IF NOT EXISTS bill (bill_id INT AUTO_INCREMENT PRIMARY KEY, cust_id INT NOT NULL, meter_no INT NOT NULL, units INT NOT NULL, cost_per_unit INT NOT NULL, amount INT NOT NULL, due_date DATE NOT NULL board_id INT NOT NULL, FOREIGN KEY (cust_id) REFERENCES customer(cust_id), FOREIGN KEY (board_id) REFERENCES Board(eb_id))")
     sql = "INSERT INTO bill (cust_id, meter_no, units, cost_per_unit, amount, due_date) VALUES (%s, %s, %s, %s, %s, %s)"
-    val = (cust_id, meter_no, units, cost_per_unit, int(units)*int(cost_per_unit), due_date)
+    val = (cust_id, meter_no, units, cost_per_unit, int(units)*int(cost_per_unit), due_date, board_id)
     mycursor.execute(sql, val)
     mydb.commit()
     st.write("Bill added successfully")
@@ -94,13 +94,13 @@ def read_bill():
     mycursor.execute("SELECT * FROM bill")
     myresult = mycursor.fetchall()
     st.write("Bill details")
-    df=pd.DataFrame(myresult,columns=['bill_id','cust_id','meter_no','units','cost_per_unit','amount','due_date'])
+    df=pd.DataFrame(myresult,columns=['bill_id','cust_id','meter_no','units','cost_per_unit','amount','due_date', 'board_id'])
     st.dataframe(df)
 
 
-def update_bill_db(bill_id,cust_id,meter_no,units,cost_per_unit, due_date):
-    sql = "UPDATE bill SET cust_id = %s, meter_no = %s, units = %s, cost_per_unit = %s, amount = %s, due_date=%s WHERE bill_id = %s"
-    val = (cust_id, meter_no, units, cost_per_unit, int(units)*int(cost_per_unit), due_date, bill_id)
+def update_bill_db(bill_id,cust_id,meter_no,units,cost_per_unit, due_date, board_id):
+    sql = "UPDATE bill SET cust_id = %s, meter_no = %s, units = %s, cost_per_unit = %s, amount = %s, due_date=%s, board_id=%s WHERE bill_id = %s"
+    val = (cust_id, meter_no, units, cost_per_unit, int(units)*int(cost_per_unit), due_date, board_id, bill_id)
     mycursor.execute(sql, val)
     mydb.commit()
     st.write("Bill updated successfully")
@@ -146,3 +146,33 @@ def delete_tariff_db(tariff_id):
     mycursor.execute(sql, val)
     mydb.commit()
     st.write("Tariff deleted successfully")
+
+def add_eb(name,city,state):
+    mycursor.execute("CREATE TABLE IF NOT EXISTS Board (eb_id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), city VARCHAR(255), state VARCHAR(255))")
+    # mycursor.execute("INSERT INTO Board (eb_id, name, city, state) VALUES ('100','Karnataka Power Transmission Corporation Limited', 'Bengaluru', 'Karnataka')")
+    sql = "INSERT INTO Board (name, city, state) VALUES (%s, %s, %s)"
+    val = (name, city, state)
+    mycursor.execute(sql, val)
+    mydb.commit()
+    return mycursor.lastrowid
+
+def read_eb():
+    mycursor.execute("SELECT * FROM Board")
+    myresult = mycursor.fetchall()
+    st.write("Electricity board details")
+    df=pd.DataFrame(myresult,columns=['eb_id','name','city','state'])
+    st.dataframe(df)
+
+def update_eb_db(eb_id,name,city,state):
+    sql = "UPDATE Board SET name = %s, city = %s, state = %s WHERE eb_id = %s"
+    val = (name, city, state, eb_id)
+    mycursor.execute(sql, val)
+    mydb.commit()
+    st.write("Electricity board updated successfully")
+
+def delete_eb_db(eb_id):
+    sql = "DELETE FROM Bpard WHERE eb_id = %s"
+    val = (eb_id,)
+    mycursor.execute(sql, val)
+    mydb.commit()
+    st.write("Electricity board deleted successfully")
