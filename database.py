@@ -2,7 +2,7 @@ import streamlit as st
 import mysql.connector
 import pandas as pd
 
-mydb = mysql.connector.connect(user="root", password="password", host="localhost")
+mydb = mysql.connector.connect(user="root", password="246810", host="localhost")
 mycursor = mydb.cursor()
 
 mycursor.execute("CREATE DATABASE IF NOT EXISTS electricity")
@@ -82,8 +82,8 @@ def delete_admin_db(admin_id):
     st.write("Admin deleted successfully")
 
 def add_bill(cust_id,meter_no,units,cost_per_unit,due_date,board_id):
-    mycursor.execute("CREATE TABLE IF NOT EXISTS bill (bill_id INT AUTO_INCREMENT PRIMARY KEY, cust_id INT NOT NULL, meter_no INT NOT NULL, units INT NOT NULL, cost_per_unit INT NOT NULL, amount INT NOT NULL, due_date DATE NOT NULL board_id INT NOT NULL, FOREIGN KEY (cust_id) REFERENCES customer(cust_id), FOREIGN KEY (board_id) REFERENCES Board(eb_id))")
-    sql = "INSERT INTO bill (cust_id, meter_no, units, cost_per_unit, amount, due_date) VALUES (%s, %s, %s, %s, %s, %s)"
+    mycursor.execute("CREATE TABLE IF NOT EXISTS bill (bill_id INT AUTO_INCREMENT PRIMARY KEY, cust_id INT NOT NULL, meter_no INT NOT NULL, units INT NOT NULL, cost_per_unit INT NOT NULL, amount INT NOT NULL, due_date DATE NOT NULL, board_id INT NOT NULL, FOREIGN KEY (cust_id) REFERENCES customer(cust_id), FOREIGN KEY (board_id) REFERENCES Board(eb_id))")
+    sql = "INSERT INTO bill (cust_id, meter_no, units, cost_per_unit, amount, due_date, board_id) VALUES (%s, %s, %s, %s, %s, %s, %s)"
     val = (cust_id, meter_no, units, cost_per_unit, int(units)*int(cost_per_unit), due_date, board_id)
     mycursor.execute(sql, val)
     mydb.commit()
@@ -171,7 +171,7 @@ def update_eb_db(eb_id,name,city,state):
     st.write("Electricity board updated successfully")
 
 def delete_eb_db(eb_id):
-    sql = "DELETE FROM Bpard WHERE eb_id = %s"
+    sql = "DELETE FROM Board WHERE eb_id = %s"
     val = (eb_id,)
     mycursor.execute(sql, val)
     mydb.commit()

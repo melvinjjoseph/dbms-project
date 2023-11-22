@@ -10,18 +10,18 @@ def create_bill():
     board_id=st.text_input("Enter board_id")
     submit=st.button("Submit", key="create_bill")
     #check if cust_id exists
-    mycursor.execute("SELECT * FROM customer WHERE cust_id = %s",(cust_id,))
-    myresult = mycursor.fetchall()
-    #check if board_id exists
-    mycursor.execute("SELECT * FROM board WHERE board_id = %s",(board_id,))
-    myresult1 = mycursor.fetchall()
-    if not myresult:
-        st.write("cust_id does not exist")
-        return
-    if not myresult1:
-        st.write("board_id does not exist")
-        return
-    if submit and myresult and myresult1:
+    # # mycursor.execute("SELECT * FROM customer WHERE cust_id = %s",(cust_id,))
+    # myresult = mycursor.fetchall()
+    # #check if board_id exists
+    # # mycursor.execute("SELECT * FROM board WHERE board_id = %s",(board_id,))
+    # # myresult1 = mycursor.fetchall()
+    # if not myresult:
+    #     st.write("cust_id does not exist")
+    #     return
+    # if not myresult1:
+    #     st.write("board_id does not exist")
+        # return
+    if submit:
         bill_id=add_bill(cust_id,meter_no,units,cost_per_unit, due_date, board_id) 
         st.write("Bill id is ",bill_id)
 

@@ -6,17 +6,18 @@ from admin import *
 from bill import *
 from tariff import *
 from board import *
+from advancedFeatures import *
 
 
 def main():
     st.title("Electricity management system")
 
-    choose=st.sidebar.radio("Select whether you are customer or admin",["Customer","Admin"])
+    choose=st.sidebar.radio("Select whether you are customer or admin",["Admin","Customer"])
     if choose=="Customer":
         menu=["Home","Customer", "Billing"]
         choice=st.sidebar.selectbox("Menu",menu)
     if choose=="Admin":
-        menu=["Home","Customer","Admin", "Billing", "Tariff", "Electricity Boards", "Show Due Bills", "Custom Query"]
+        menu=["Home","Customer","Admin", "Billing", "Tariff", "Electricity Boards", "Show Due Bills", "Advanced Features"]
         choice=st.sidebar.selectbox("Menu",menu)
 
 
@@ -98,15 +99,9 @@ def main():
         st.subheader("Due Bills")
         due_bills()
 
-    if choice == "Custom Query":
-        st.subheader("Custom Query")
-        query=st.text_input("Enter query")
-        submit=st.button("Submit")
-        if submit:
-            mycursor.execute(query)
-            myresult = mycursor.fetchall()
-            for x in myresult:
-                st.write(x)
+    if choice == "Advanced Features":
+        advancedFeatures()
+
 
                 
 main()

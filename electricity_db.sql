@@ -42,12 +42,10 @@ FOREIGN KEY (cust_id) REFERENCES customer(cust_id)
 );
 
 --inserting values into admin table
-INSERT INTO admin (admin_id,admin_name,cust_id) VALUES ('200','Sahil','100');
-INSERT INTO admin (admin_name,cust_id) VALUES ('Karan','101');
-INSERT INTO admin (admin_name,cust_id) VALUES ('Rahul','102');
-INSERT INTO admin (admin_name,cust_id) VALUES ('Nikhil','103');
-
-
+INSERT INTO admin (admin_id, name,customer_id) VALUES ('200','Sahil','100');
+INSERT INTO admin (name,customer_id) VALUES ('Karan','101');
+INSERT INTO admin (name,customer_id) VALUES ('Rahul','102');
+INSERT INTO admin (name,customer_id) VALUES ('Nikhil','103');
 
 
 --table structure for electricity board
@@ -62,12 +60,12 @@ PRIMARY KEY (board_id)
 );
 
 --inserting values into electricity board table
-INSERT INTO electricity_board (board_id,board_name,state,city) VALUES ('300','Chamundeshwari Power Corporation','Karnataka','Mysore');
-INSERT INTO electricity_board (board_name,state,city) VALUES ('Karnataka Power Corporation','Karnataka','Bangalore');
-INSERT INTO electricity_board (board_name,state,city) VALUES ('BESCOM','Karnataka','Bangalore');
-INSERT INTO electricity_board (board_name,state,city) VALUES ('Tamil Nadu Power Corporation','Tamil Nadu','Chennai');
-INSERT INTO electricity_board (board_name,state,city) VALUES ('Uttar Pradesh Power Corporation','Uttar Pradesh','Lucknow');
-INSERT INTO electricity_board (board_name,state,city) VALUES ('Madhya Pradesh Power Corporation','Madhya Pradesh','Indore');
+INSERT INTO board (eb_id,name,state,city) VALUES ('300','Chamundeshwari Power Corporation','Karnataka','Mysore');
+INSERT INTO board (name,state,city) VALUES ('Karnataka Power Corporation','Karnataka','Bangalore');
+INSERT INTO board (name,state,city) VALUES ('BESCOM','Karnataka','Bangalore');
+INSERT INTO board (name,state,city) VALUES ('Tamil Nadu Power Corporation','Tamil Nadu','Chennai');
+INSERT INTO board (name,state,city) VALUES ('Uttar Pradesh Power Corporation','Uttar Pradesh','Lucknow');
+INSERT INTO board (name,state,city) VALUES ('Madhya Pradesh Power Corporation','Madhya Pradesh','Indore');
 
 
 --table structure for tariff
@@ -82,10 +80,10 @@ CONSTRAINT test_column_positive CHECK (price_slab > 0)
 );
 
 --inserting values into tariff table
-INSERT INTO tariff (tariff_id,tariff_type,price_slab) VALUES ('400','Power factor tariff','10');
-INSERT INTO tariff (tariff_type,price_slab) VALUES ('Peak Load tariff','40');
-INSERT INTO tariff (tariff_type,price_slab) VALUES ('Two part tariff','18');
-INSERT INTO tariff (tariff_type,price_slab) VALUES ('Three part tariff','36');
+INSERT INTO tariff (tariff_id,tariff_type,tariff_cost) VALUES ('400','Power factor tariff','10');
+INSERT INTO tariff (tariff_type,tariff_cost) VALUES ('Peak Load tariff','40');
+INSERT INTO tariff (tariff_type,tariff_cost) VALUES ('Two part tariff','18');
+INSERT INTO tariff (tariff_type,tariff_cost) VALUES ('Three part tariff','36');
 
 
 --table structure for bill
@@ -109,20 +107,20 @@ CONSTRAINT total_amount_positive CHECK (total_amount > 0)
 );
 
 --inserting values into bill table
-INSERT INTO bill (bill_id,board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('500','300','100','37713','105','10','1050','2023-06-30');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('301','101','22849','187','18','3366','2023-12-16');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('303','102','94853','23','15','345','2023-11-09');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('302','103','36274','43','22','946','2023-10-12');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('303','104','47232','57','28','1596','2023-09-15');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('301','105','12975','67','33','2211','2023-08-18');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('302','106','98985','78','39','3042','2023-12-21');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('303','107','12753','89','44','3920','2023-11-24');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('304','108','75535','98','49','4802','2023-10-27');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('305','109','15821','108','54','5832','2023-09-30');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('300','110','87515','118','59','6962','2024-01-03');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('301','111','95435','128','64','8192','2023-12-06');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('302','112','39839','138','69','9522','2023-11-29');
-INSERT INTO bill (board_id,cust_id,meter_number,monthly_units,amount_per_unit,total_amount,due_date) VALUES ('303','113','77378','148','74','10952','2023-11-22');
+INSERT INTO bill (bill_id,board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('500','300','100','37713','105','10','1050','2023-06-30');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('301','101','22849','187','18','3366','2023-12-16');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('303','102','94853','23','15','345','2023-11-09');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('302','103','36274','43','22','946','2023-10-12');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('303','104','47232','57','28','1596','2023-09-15');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('301','105','12975','67','33','2211','2023-08-18');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('302','106','98985','78','39','3042','2023-12-21');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('303','107','12753','89','44','3920','2023-11-24');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('304','108','75535','98','49','4802','2023-10-27');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('305','109','15821','108','54','5832','2023-09-30');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('300','110','87515','118','59','6962','2024-01-03');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('301','111','95435','128','64','8192','2023-12-06');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('302','112','39839','138','69','9522','2023-11-29');
+INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('303','113','77378','148','74','10952','2023-11-22');
 
 --query to find the total amount in each city
 SELECT c.city, SUM(b.monthly_units) AS total_monthly_units

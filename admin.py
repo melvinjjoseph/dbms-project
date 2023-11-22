@@ -36,4 +36,3 @@ def delete_admin():
         return
     elif submit and myresult:
         delete_admin_db(admin_id)
-        st.write ("Admin deleted successfully")

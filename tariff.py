@@ -35,4 +35,3 @@ def delete_tariff():
         return
     elif submit and myresult:
         delete_tariff_db(tariff_id)
-        st.write ("Tariff deleted successfully")
