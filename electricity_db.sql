@@ -1,5 +1,10 @@
---table structure for customer
-DROP TABLE IF EXISTS 'customer';
+SHOW DATABASES;
+DROP DATABASE IF EXISTS Electricity_db;
+CREATE DATABASE IF NOT EXISTS Electricity_db;
+USE Electricity_db;
+
+-- table structure for customer
+DROP TABLE IF EXISTS customer;
 
 CREATE TABLE customer 
 (
@@ -11,7 +16,7 @@ state VARCHAR(255) NOT NULL,
 PRIMARY KEY (cust_id)
 );
 
---inserting values into customer table
+-- inserting values into customer table
 INSERT INTO customer (cust_id,name,address,city,state) VALUES ('100','Abhay','MG Road','Mysore','Karnataka');
 INSERT INTO customer (name,address,city,state) VALUES ('Vishnu','Basaveshwara Nagar','Bangalore','Karnataka');
 INSERT INTO customer (name,address,city,state) VALUES ('Anant','HD Kote Road','Mysore','Karnataka');
@@ -30,83 +35,83 @@ INSERT INTO customer (name,address,city,state) VALUES ('Sridhar','Gwalior Road',
 INSERT INTO customer (name,address,city,state) VALUES ('Sahil','MG Road','New Delhi','Delhi');
 
 
---table structure for admin
-DROP TABLE IF EXISTS 'admin';
+-- table structure for admin
+DROP TABLE IF EXISTS admin;
 CREATE TABLE admin
 (
 admin_id INT AUTO_INCREMENT NOT NULL,
-admin_name VARCHAR(255) NOT NULL,
-cust_id INT NOT NULL,
+name VARCHAR(255) NOT NULL,
+customer_id INT NOT NULL,
 PRIMARY KEY (admin_id),
-FOREIGN KEY (cust_id) REFERENCES customer(cust_id)
+FOREIGN KEY (customer_id) REFERENCES customer(cust_id)
 );
 
---inserting values into admin table
+-- inserting values into admin table
 INSERT INTO admin (admin_id, name,customer_id) VALUES ('200','Sahil','100');
 INSERT INTO admin (name,customer_id) VALUES ('Karan','101');
 INSERT INTO admin (name,customer_id) VALUES ('Rahul','102');
 INSERT INTO admin (name,customer_id) VALUES ('Nikhil','103');
 
 
---table structure for electricity board
-DROP TABLE IF EXISTS 'electricity_board';
+-- table structure for electricity board
+DROP TABLE IF EXISTS electricity_board;
 CREATE TABLE electricity_board
 (
-board_id INT AUTO_INCREMENT NOT NULL,
-board_name VARCHAR(255) NOT NULL,
+eb_id INT AUTO_INCREMENT NOT NULL,
+name VARCHAR(255) NOT NULL,
 state VARCHAR(255)  NOT NULL,
 city VARCHAR(255) NOT NULL,
-PRIMARY KEY (board_id)
+PRIMARY KEY (eb_id)
 );
 
---inserting values into electricity board table
-INSERT INTO board (eb_id,name,state,city) VALUES ('300','Chamundeshwari Power Corporation','Karnataka','Mysore');
-INSERT INTO board (name,state,city) VALUES ('Karnataka Power Corporation','Karnataka','Bangalore');
-INSERT INTO board (name,state,city) VALUES ('BESCOM','Karnataka','Bangalore');
-INSERT INTO board (name,state,city) VALUES ('Tamil Nadu Power Corporation','Tamil Nadu','Chennai');
-INSERT INTO board (name,state,city) VALUES ('Uttar Pradesh Power Corporation','Uttar Pradesh','Lucknow');
-INSERT INTO board (name,state,city) VALUES ('Madhya Pradesh Power Corporation','Madhya Pradesh','Indore');
+-- inserting values into electricity board table
+INSERT INTO electricity_board (eb_id,name,state,city) VALUES ('300','Chamundeshwari Power Corporation','Karnataka','Mysore');
+INSERT INTO electricity_board (name,state,city) VALUES ('Karnataka Power Corporation','Karnataka','Bangalore');
+INSERT INTO electricity_board (name,state,city) VALUES ('BESCOM','Karnataka','Bangalore');
+INSERT INTO electricity_board (name,state,city) VALUES ('Tamil Nadu Power Corporation','Tamil Nadu','Chennai');
+INSERT INTO electricity_board (name,state,city) VALUES ('Uttar Pradesh Power Corporation','Uttar Pradesh','Lucknow');
+INSERT INTO electricity_board (name,state,city) VALUES ('Madhya Pradesh Power Corporation','Madhya Pradesh','Indore');
 
 
---table structure for tariff
-DROP TABLE IF EXISTS 'tariff';
+-- table structure for tariff
+DROP TABLE IF EXISTS tariff;
 CREATE TABLE tariff
 (
 tariff_id INT AUTO_INCREMENT NOT NULL,
 tariff_type VARCHAR(255) NOT NULL,
-price_slab INT NOT NULL,
+tariff_cost INT NOT NULL,
 PRIMARY KEY (tariff_id),
-CONSTRAINT test_column_positive CHECK (price_slab > 0)
+CONSTRAINT test_column_positive CHECK (tariff_cost > 0)
 );
 
---inserting values into tariff table
+-- inserting values into tariff table
 INSERT INTO tariff (tariff_id,tariff_type,tariff_cost) VALUES ('400','Power factor tariff','10');
 INSERT INTO tariff (tariff_type,tariff_cost) VALUES ('Peak Load tariff','40');
 INSERT INTO tariff (tariff_type,tariff_cost) VALUES ('Two part tariff','18');
 INSERT INTO tariff (tariff_type,tariff_cost) VALUES ('Three part tariff','36');
 
 
---table structure for bill
-DROP TABLE IF EXISTS 'bill';
+-- table structure for bill
+DROP TABLE IF EXISTS bill;
 CREATE TABLE bill
 (
 bill_id INT AUTO_INCREMENT NOT NULL,
 board_id INT NOT NULL,
 cust_id INT NOT NULL,
-meter_number VARCHAR(255) NOT NULL,
-monthly_units INT NOT NULL,
-amount_per_unit INT NOT NULL ,
-total_amount INT NOT NULL,
+meter_no VARCHAR(255) NOT NULL,
+units INT NOT NULL,
+cost_per_unit INT NOT NULL ,
+amount INT NOT NULL,
 due_date DATE NOT NULL,
 PRIMARY KEY (bill_id),
-FOREIGN KEY (board_id) REFERENCES electricity_board(board_id),
+FOREIGN KEY (board_id) REFERENCES electricity_board(eb_id),
 FOREIGN KEY (cust_id) REFERENCES customer(cust_id),
-CONSTRAINT amount_per_unit_positive CHECK (amount_per_unit > 0),
-CONSTRAINT monthly_units_positive CHECK (monthly_units > 0),
-CONSTRAINT total_amount_positive CHECK (total_amount > 0)
+CONSTRAINT amount_per_unit_positive CHECK (cost_per_unit > 0),
+CONSTRAINT monthly_units_positive CHECK (units > 0),
+CONSTRAINT total_amount_positive CHECK (amount > 0)
 );
 
---inserting values into bill table
+-- inserting values into bill table
 INSERT INTO bill (bill_id,board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('500','300','100','37713','105','10','1050','2023-06-30');
 INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('301','101','22849','187','18','3366','2023-12-16');
 INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('303','102','94853','23','15','345','2023-11-09');
@@ -122,63 +127,63 @@ INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date)
 INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('302','112','39839','138','69','9522','2023-11-29');
 INSERT INTO bill (board_id,cust_id,meter_no,units,cost_per_unit,amount,due_date) VALUES ('303','113','77378','148','74','10952','2023-11-22');
 
---query to find the total amount in each city
-SELECT c.city, SUM(b.monthly_units) AS total_monthly_units
+-- query to find the total amount in each city
+SELECT c.city, SUM(b.units) AS total_monthly_units
 FROM customer c
 JOIN bill b ON c.cust_id = b.cust_id
 GROUP BY c.city;
 
---query to find the total amount in each state
-SELECT c.state, SUM(b.monthly_units) AS total_monthly_units
+-- query to find the total amount in each state
+SELECT c.state, SUM(b.units) AS total_monthly_units
 FROM customer c
 JOIN bill b ON c.cust_id = b.cust_id
 GROUP BY c.state;
 
---query to find amount collected by each board
-SELECT eb.board_id, eb.board_name, SUM(b.total_amount) AS total_bill_amount
+-- query to find amount collected by each board
+SELECT eb.eb_id, eb.name, SUM(b.amount) AS total_bill_amount
 FROM electricity_board eb
-JOIN bill b ON eb.board_id = b.board_id
-GROUP BY eb.board_id, eb.board_name;
+JOIN bill b ON eb.eb_id = b.board_id
+GROUP BY eb.eb_id, eb.name;
 
---query to update the address of a customer
-UPDATE customer
-SET address = 'New Address'
-WHERE cust_id = 101;
+-- query to update the address of a customer
+-- UPDATE customer
+-- SET address = 'New Address'
+-- WHERE cust_id = 101;
 
---query to delete a customer
-DELETE FROM customer
-WHERE cust_id = 101;
+-- query to delete a customer
+-- DELETE FROM customer
+-- WHERE cust_id = 101;
 
---correlated query to find customers with bill amount greater than average bill amount for their city
-SELECT c.*, b.monthly_units
+-- correlated query to find customers with bill amount greater than average bill amount for their city
+SELECT c.*, b.units
 FROM customer c
 JOIN bill b ON c.cust_id = b.cust_id
-WHERE b.monthly_units > (
-    SELECT AVG(b2.monthly_units)
+WHERE b.units > (
+    SELECT AVG(b2.units)
     FROM bill b2
     JOIN customer c2 ON c2.cust_id = b2.cust_id
     WHERE c2.city = c.city
 );
 
---nested query to find customer with highest bill amount
+-- nested query to find customer with highest bill amount
 SELECT cust_id, name, address, city, state
 FROM customer
 WHERE cust_id = (
     SELECT cust_id
     FROM bill
     GROUP BY cust_id
-    ORDER BY SUM(total_amount) DESC
+    ORDER BY SUM(amount) DESC
     LIMIT 1
 );
 
---function to find average monthly units for a city
+-- function to find average monthly units for a city
 DELIMITER //
 CREATE FUNCTION GetAverageMonthlyUnitsForCity(cityNameParam VARCHAR(255))
 RETURNS DECIMAL(10, 2)
 READS SQL DATA
 BEGIN
     DECLARE avgMonthlyUnits DECIMAL(10, 2);
-    SELECT AVG(b.monthly_units) INTO avgMonthlyUnits
+    SELECT AVG(b.units) INTO avgMonthlyUnits
     FROM bill b
     JOIN customer c ON b.cust_id = c.cust_id
     WHERE c.city = cityNameParam;
@@ -186,7 +191,7 @@ BEGIN
 END //
 DELIMITER ;
 
---procedure to find bill details for a customer
+-- procedure to find bill details for a customer
 DELIMITER //
 CREATE PROCEDURE GetBillDetailsByCustomerID(IN custID INT)
 BEGIN
@@ -194,15 +199,15 @@ BEGIN
 END //
 DELIMITER ;
 
---trigger to insert bill details into due_bills table when a bill is updated
-CREATE TRIGGER IF NOT EXIST due_bills_trigger 
-AFTER UPDATE ON bill 
-FOR EACH ROW 
-BEGIN 
-IF NEW.due_date < CURDATE() 
-THEN INSERT INTO due_bills (cust_id, meter_no, units, cost_per_unit, amount, due_date, board_id) 
-VALUES (NEW.cust_id, NEW.meter_no, NEW.units, NEW.cost_per_unit, NEW.amount, NEW.due_date, NEW.board.id); 
-END IF; 
-END;
+-- trigger to insert bill details into due_bills table when a bill is updated
+-- CREATE TRIGGER IF NOT EXIST due_bills_trigger 
+-- AFTER UPDATE ON bill 
+-- FOR EACH ROW 
+-- BEGIN 
+-- IF NEW.due_date < CURDATE() 
+-- THEN INSERT INTO due_bills (cust_id, meter_no, units, cost_per_unit, amount, due_date, board_id) 
+-- VALUES (NEW.cust_id, NEW.meter_no, NEW.units, NEW.cost_per_unit, NEW.amount, NEW.due_date, NEW.board.id); 
+-- END IF; 
+-- END;
 
 

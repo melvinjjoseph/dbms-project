@@ -2,7 +2,7 @@ import streamlit as st
 import mysql.connector
 import pandas as pd
 
-mydb = mysql.connector.connect(user="root", password="246810", host="localhost")
+mydb = mysql.connector.connect(user="root", password="password", host="localhost")
 mycursor = mydb.cursor()
 
 mycursor.execute("CREATE DATABASE IF NOT EXISTS electricity")
@@ -176,3 +176,4 @@ def delete_eb_db(eb_id):
     mycursor.execute(sql, val)
     mydb.commit()
     st.write("Electricity board deleted successfully")
+
